@@ -3,6 +3,7 @@
  * Saturday, July 16th 2011
  *
  * Created by Jose Miguel Salcido Aguilar (jose152)
+ * The brief description of the class is on Javadoc format.
  */
 package local.pruebas.adaptadores;
 
@@ -61,6 +62,7 @@ public class NotesGUIAdapter extends BaseAdapter {
 	 * Added this way, if someone knows a better way change it.
 	 */
 	public View getView(int position, View convertView, ViewGroup parent) {
+		// TODO test this
 		View layout;
 		if(convertView == null) {
 			// JustMe saved the day at this point :)
