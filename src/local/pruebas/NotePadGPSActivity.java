@@ -103,7 +103,7 @@ public class NotePadGPSActivity extends Activity {
      */
     private void doNormalStartup() {
     	Log.v(NORMAL_TAG, "Doing the normal run dance");
-    	testAddNotes(false);
+    	testAddNotes(true);
     	try {
     		initUIElements();									// all the ui changes must be done before the data could be added.
     		fillData();											// all the ui changes must be done before the data could be added.
@@ -145,7 +145,7 @@ public class NotePadGPSActivity extends Activity {
     	
     	// get titles of the notes
     	for(int i = 0; i < notes.length ; i++) {
-    		notes[i] = new Note(notesCursor.getString(0));
+    		notes[i] = new Note(notesCursor.getString(1));
     		notesCursor.moveToNext();
     		titles[i] = notes[i].getTitle();
     		Log.v("Nota " + i, titles[i]);
@@ -164,7 +164,7 @@ public class NotePadGPSActivity extends Activity {
     private void testAddNotes(boolean addTestNotes) {
     	if (!addTestNotes) return;
 		if (mDbAdapter.fetchAllNotes().getCount() == 0) {
-			int random = (int)(Math.random() * 3);
+			int random = (int)(Math.random() * 5);
 			Log.v("pruebin", random + "");
 			mIdNotes = new long[random];
 			for (int i = 0; i < random; i++) {
