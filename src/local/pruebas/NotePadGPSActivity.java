@@ -28,6 +28,7 @@ public class NotePadGPSActivity extends Activity {
 
 	private DatabaseAdapter mDbAdapter;
 	private long[] mIdNotes;
+	private Note mNotes[];
 	private GridView mainGrid;
 	private Button mainButtonAddNote;
 	private Button mainButtonShowMap;
@@ -38,6 +39,9 @@ public class NotePadGPSActivity extends Activity {
 	private final String DEBUG_TAG = "[DEBUG]";
 	
 	// CONSTANTS
+	private final int COLUMN_ID = 0;
+	private final int COLUMN_TITLE = 1;
+	
 	private final int MAIN_BUTTON_ADD = 10;
 	private final int MAIN_BUTTON_VIEW = 11;
 	
@@ -103,7 +107,6 @@ public class NotePadGPSActivity extends Activity {
      */
     private void doNormalStartup() {
     	Log.v(NORMAL_TAG, "Doing the normal run dance");
-    	testAddNotes(true);
     	try {
     		initUIElements();									// all the ui changes must be done before the data could be added.
     		fillData();											// all the ui changes must be done before the data could be added.
@@ -139,15 +142,15 @@ public class NotePadGPSActivity extends Activity {
     	// Logical work
     	Cursor notesCursor = mDbAdapter.fetchAllNotes();
     	//startManagingCursor(notesCursor);
-    	Note notes[] = new Note[notesCursor.getCount()];
-    	String titles[] = new String[notes.length];
+    	mNotes = new Note[notesCursor.getCount()];
+    	String titles[] = new String[mNotes.length];
     	notesCursor.moveToFirst();
     	
     	// get titles of the notes
-    	for(int i = 0; i < notes.length ; i++) {
-    		notes[i] = new Note(notesCursor.getString(1));
+    	for(int i = 0; i < mNotes.length ; i++) {
+    		mNotes[i] = new Note(notesCursor.getLong(COLUMN_ID), notesCursor.getString(COLUMN_TITLE));
     		notesCursor.moveToNext();
-    		titles[i] = notes[i].getTitle();
+    		titles[i] = mNotes[i].getTitle();
     		Log.v("Nota " + i, titles[i]);
     	}
     	
@@ -162,18 +165,17 @@ public class NotePadGPSActivity extends Activity {
      * MUST, DELETE THIS ON RELEASE
      */
     private void testAddNotes(boolean addTestNotes) {
-    	if (!addTestNotes) return;
-		if (mDbAdapter.fetchAllNotes().getCount() == 0) {
+		//if (mDbAdapter.fetchAllNotes().getCount() == 0) {
 			int random = (int)(Math.random() * 5);
-			Log.v("pruebin", random + "");
+			Log.v("NUMERO DE NOTAS A AGREGAR", random + "");
 			mIdNotes = new long[random];
 			for (int i = 0; i < random; i++) {
 				long id = mDbAdapter.createNote("test" + i, "nota" + i);
 				mIdNotes[i] = id;
-				Log.v("added", "Note ID: " + id);
+				Log.v("ADDED", "Note ID: " + id);
 			}
-		} else
-			Log.v("pruebin", "not adding because there are moar notes already");
+		/*} else
+			Log.v("pruebin", "not adding because there are moar notes already");*/
 	}
     
     /**
@@ -186,7 +188,14 @@ public class NotePadGPSActivity extends Activity {
     	 * It must show the note selected in the grid in a new activity.
     	 */
     	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-			// TODO the lack of ViewNote.java and ShowMap.java is disturbing.
+			// TODO everything!
+    		if (mDbAdapter == null) {
+    			return;
+    		} else {
+    			mDbAdapter.deleteNote(mNotes[position].getId());
+    			Log.v(DEBUG_TAG, "Eliminada la nota: " + mNotes[position].getId());
+    			fillData();
+    		}
 		}
     }
     
@@ -214,6 +223,8 @@ public class NotePadGPSActivity extends Activity {
 			// TODO Auto-generated method stub
 			switch(behaviour) {
 			case MAIN_BUTTON_ADD:
+				testAddNotes(true);
+				fillData();
 				break;
 			case MAIN_BUTTON_VIEW:
 				break;

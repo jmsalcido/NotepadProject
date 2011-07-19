@@ -24,9 +24,9 @@ public class Note {
 	 */
 	public Note() {
 		this.id = -1;
-		this.title = "";
-		this.body = "";
-		this.place = -1;
+		this.title = null;
+		this.body = null;
+		this.place = 0;
 	}
 	
 	/**
@@ -47,11 +47,24 @@ public class Note {
 	/**
 	 * Note:
 	 * Public constructor with params
+	 * @param id
+	 * @param title
+	 */
+	public Note(long id, String title) {
+		this.id = id;
+		this.title = title;
+		this.body = null;
+	}
+	
+	/**
+	 * Note:
+	 * Public constructor with params
 	 * @param title
 	 */
 	public Note(String title) {
 		this.id = -1;
 		this.title = title;
+		this.body = null;
 	}
 	
 	/**
