@@ -1,6 +1,9 @@
 /*
  * NotepadGPS - NotesDbAdapter.java
  * Sunday, June 26th 2011
+ * 
+ * Created by Jose Miguel Salcido Aguilar (jose152)
+ * The brief description of the class is on Javadoc format.
  */
 
 package local.pruebas.adaptadores;
@@ -14,20 +17,20 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 /**
- * DbAdapter.class.
- * Clase de ayuda para conectar a la base de datos.
+ * DbAdapter:
+ * Helper class for database connections.
  * @author devteam
  */
 public class DatabaseAdapter {
 	
-	public static final String KEY_ROWID = "rowid";
+	public static final String KEY_ROWID = "_id";
 	public static final String KEY_NOTES_TITLE = "title";
 	public static final String KEY_NOTES_BODY = "body";
 	public static final String KEY_NOTES_PLACE = "place";
 	
 	public static final String KEY_PLACES_NAME = "name";
-	public static final String KEY_PLACES_X = "posx";
-	public static final String KEY_PLACES_Y = "posy";
+	public static final String KEY_PLACES_LATITUDE = "latitude";
+	public static final String KEY_PLACES_LONGITUDE = "longitude";
 	
 	public static final int OPTION_NOTES = 1;
 	public static final int OPTION_PLACES = 2;
@@ -45,12 +48,12 @@ public class DatabaseAdapter {
 			"place INTEGER NOT NULL);";//," +
 			//"FOREIGN KEY(place) REFERENCES places(_id));";
 	
-	// TODO Averiguar que tipo de dato son las coordenadas en locations.
+	// TODO Implement places... 
 	private static final String DATABASE_PLACES_CREATE = "" +
 			"CREATE TABLE places(" +
 			"_id INTEGER PRIMARY KEY AUTOINCREMENT," +
-			"posx TEXT NOT NULL," + // TEXT?
-			"posy TEXT NOT NULL);"; // TEXT?
+			"latitude TEXT NOT NULL," + // TEXT?
+			"longitude TEXT NOT NULL);"; // TEXT?
 	
 	private static final String DATABASE_NAME = "data";
 	private static final String DATABASE_NOTES_TABLE = "notes";
@@ -60,8 +63,8 @@ public class DatabaseAdapter {
 	private final Context mContexto;
 	
 	/**
-	 * DatabaseHelper.class.
-	 * La clase que crea la base de datos y demas.
+	 * DatabaseHelper():
+	 * Helper that creates database and updates.
 	 */
 	private static class DatabaseHelper extends SQLiteOpenHelper{
 		private String create;
@@ -88,7 +91,8 @@ public class DatabaseAdapter {
 	}
 	
 	/**
-	 * Constructor del adaptador.
+	 * DatabaseAdapter():
+	 * Default builder
 	 * @param contexto de la aplicacion.
 	 */
 	public DatabaseAdapter(Context contexto) {
@@ -96,9 +100,10 @@ public class DatabaseAdapter {
 	}
 	
 	/**
-	 * Abrir la conexion a la base de datos y seleccionar la tabla elegida.
-	 * @param option que se usara, 1 para notas, 2 para lugares
-	 * @return la instancia
+	 * open(int option):
+	 * Open the database with the option
+	 * @param option used, OPTION_NOTES for notes, OPTION_PLACES for places
+	 * @return this
 	 * @throws SQLException
 	 */
 	public DatabaseAdapter open(int option) throws SQLException {
@@ -113,18 +118,19 @@ public class DatabaseAdapter {
 			break;
 		}
 		mDb = mHelper.getWritableDatabase();
-		return this;
+		return this; // This is magic for me.
 	}
 	
 	/**
-	 * Cerrar conexion
+	 * close():
+	 * Close connections
 	 */
 	public void close() {
 		mHelper.close();
 	}
 	
 	/**
-	 * Crear una nota con titulo y cuerpo
+	 * createNote()
 	 * @param titulo de la nota
 	 * @param body de la nota
 	 * @return ID de la nota
@@ -134,12 +140,12 @@ public class DatabaseAdapter {
 		ContentValues initialValues = new ContentValues();
 		initialValues.put(KEY_NOTES_TITLE, title);
 		initialValues.put(KEY_NOTES_BODY, body);
-		initialValues.put(KEY_NOTES_PLACE, 0);
+		initialValues.put(KEY_NOTES_PLACE, 0); // TODO Using magic numbers, must remove?...
 		return mDb.insert(DATABASE_NOTES_TABLE, null, initialValues);
 	}
 	
 	/**
-	 * Crear una nota con titulo, cuerpo y lugar.
+	 * createNote()
 	 * @param title
 	 * @param body
 	 * @param place
@@ -154,23 +160,23 @@ public class DatabaseAdapter {
 	}
 	
 	/**
-	 * Crear un lugar con nombre y coordenadas.
+	 * createPlace()
 	 * @param name nombre del lugar
 	 * @param x posicion x
 	 * @param y posicion y
 	 * @return
 	 */
 	// TODO: Coordenadas en el api de google maps!, String o como?!
-	public long createPlace(String name, String x, String y) {
+	public long createPlace(String name, String latitude, String longitude) {
 		ContentValues initialValues = new ContentValues();
 		initialValues.put(KEY_PLACES_NAME, name);
-		initialValues.put(KEY_PLACES_X, x);
-		initialValues.put(KEY_PLACES_Y, y);
+		initialValues.put(KEY_PLACES_LATITUDE, latitude);
+		initialValues.put(KEY_PLACES_LONGITUDE, longitude);
 		return mDb.insert(DATABASE_PLACES_TABLE, null, initialValues);
 	}
 	
 	/**
-	 * Borrar una nota.
+	 * createPlace
 	 * @param rowId
 	 * @return
 	 */
@@ -179,7 +185,7 @@ public class DatabaseAdapter {
 	}
 	
 	/**
-	 * Borrar un lugar
+	 * deletePlace
 	 * @param rowId
 	 * @return
 	 */
@@ -188,7 +194,7 @@ public class DatabaseAdapter {
 	}
 	
 	/**
-	 * Obtener todas las notas en un cursor.
+	 * fetchAllNotes
 	 * @return el cursor con las notas.
 	 */
 	public Cursor fetchAllNotes() {
@@ -198,17 +204,33 @@ public class DatabaseAdapter {
 	}
 	
 	/**
-	 * Obtener todos los lugares en un cursor.
+	 * fetchAllNotesByTitle:
+	 * @return el cursor con las notas
+	 */
+	public Cursor fetchAllNotesByTitle() {
+		return mDb.query(DATABASE_NOTES_TABLE,new String[] {KEY_ROWID, KEY_NOTES_TITLE}, null, null, null, null, null);
+	}
+	
+	/**
+	 * fetchAllNotesById:
+	 * @return el cursor con las notas
+	 */
+	public Cursor fetchAllNotesById() {
+		return mDb.query(DATABASE_NOTES_TABLE, new String[] {KEY_ROWID}, null, null, null, null, null);
+	}
+	
+	/**
+	 * fetchAllPlaces
 	 * @return
 	 */
 	public Cursor fetchAllPlaces() {
 		return mDb.query(DATABASE_PLACES_TABLE,
-				new String[] {KEY_ROWID, KEY_PLACES_NAME, KEY_PLACES_X, KEY_PLACES_Y},
+				new String[] {KEY_ROWID, KEY_PLACES_NAME, KEY_PLACES_LATITUDE, KEY_PLACES_LONGITUDE},
 				null, null, null, null, null);
 	}
 	
 	/**
-	 * Obtener nota por el id dado.
+	 * fetchNote(long rowId)
 	 * @param rowId de la nota a sacar.
 	 * @return el cursor con la nota.
 	 */
@@ -220,9 +242,23 @@ public class DatabaseAdapter {
 			mCursor.moveToFirst();
 		return mCursor;
 	}
+
+	/**
+	 * 
+	 * @param rowId
+	 * @param title
+	 * @param body
+	 * @return
+	 */
+	public boolean updateNote(long rowId, String title, String body) {
+		ContentValues args = new ContentValues();
+		args.put(KEY_NOTES_TITLE, title);
+		args.put(KEY_NOTES_BODY, body);
+		return mDb.update(DATABASE_NOTES_TABLE, args, KEY_ROWID + "=" + rowId, null) > 0;
+	}
 	
 	/**
-	 * Actualizar la nota con los parametros dados.
+	 * updateNote()
 	 * @param rowId id de la nota
 	 * @param title titulo nuevo
 	 * @param body cuerpo nuevo
@@ -237,7 +273,7 @@ public class DatabaseAdapter {
 	}
 	
 	/**
-	 * Actualizar un lugar con los parametros dados.
+	 * updatePlace()
 	 * @param rowId id del lugar
 	 * @param name nombre del lugar
 	 * @param x not sure if String
@@ -247,8 +283,8 @@ public class DatabaseAdapter {
 	public boolean updatePlace(long rowId, String name, String x, String y) {
 		ContentValues args = new ContentValues();
 		args.put(KEY_PLACES_NAME, name);
-		args.put(KEY_PLACES_X, x);
-		args.put(KEY_PLACES_Y, y);
+		args.put(KEY_PLACES_LATITUDE, x);
+		args.put(KEY_PLACES_LONGITUDE, y);
 		return mDb.update(DATABASE_PLACES_TABLE, args, KEY_ROWID + "=" + rowId, null) > 0;
 	}
 }

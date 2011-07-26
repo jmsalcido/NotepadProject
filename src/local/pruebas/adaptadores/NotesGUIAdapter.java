@@ -9,10 +9,12 @@ package local.pruebas.adaptadores;
 
 import local.pruebas.R;
 import android.content.Context;
+import android.content.res.Configuration;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 /**
@@ -70,6 +72,15 @@ public class NotesGUIAdapter extends BaseAdapter {
 				(LayoutInflater) mContexto.getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			
 			layout = layoutInflater.inflate(R.layout.maingridlayout, null);
+			
+			// Check the orientation of the device
+			int orientation = mContexto.getResources().getConfiguration().orientation;
+	    	if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+	    		LinearLayout mainGridLinearLayout = (LinearLayout) layout.findViewById(R.id.mainGridLinearLayout);
+	    		mainGridLinearLayout.setOrientation(LinearLayout.HORIZONTAL);
+	    	} else;
+	    	
+	    	// Set the text as the title
 			TextView gridText = (TextView) layout.findViewById(R.id.gridTextView);
 			gridText.setText(mNoteTitles[position]);
 			// Dont change the image dinamically, it will be static content.

@@ -1,7 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+	<!-- Main Activity -->
     <string name="hello">Hello World, NotePadGPSActivity!</string>
     <string name="app_name">NotePadGPS</string>
     <string name="mainButtonAddNote">Add Note</string>
     <string name="mainButtonShowMap">Show in Map</string>
+    
+    <!-- Note Edit/View Activity -->
+    <string name="noteTitle">Title:</string>
+    <string name="noteTitleHint">Title of the note</string>
+    <string name="noteBody">Body:</string>
+    <string name="noteBodyHint">Body of a note\n\nYou can add multi-lines.</string>
+    <string name="notePlace">Place:</string>
+    <string name="noteShowMap">Show in Map</string>
+    <string name="noteMenuSave">Save Note</string>
+    <string name="noteMenuEdit">Edit Note</string>
+    <string name="noteMenuDelete">Delete Note</string>
+    <string name="noteMenuCancel">Cancel</string>
 </resources>
