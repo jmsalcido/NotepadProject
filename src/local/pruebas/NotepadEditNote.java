@@ -166,14 +166,18 @@ public class NotepadEditNote extends Activity {
 	private void save() {
 		String body = noteBodyText.getText().toString();
 		String title = noteTitleText.getText().toString();
+		
+		// NO EMPTY NOTES HACK
+		if (body.equals("") && title.equals("")) return;
+		
+		// Check if the behaviour is ADD_NOTE
 		if (mBehaviour == NotepadUtils.ADD_NOTE) {
 			long id = mDbAdapter.createNote(title, body);
 			if (id>0) {
 				mRowId = id;
 			}
-		} else if (mBehaviour == NotepadUtils.DELETE_NOTES) {
-			mDbAdapter.deleteNote(mRowId);
 		} else {
+			// UPDATE Note
 			mDbAdapter.updateNote(mRowId, title, body);
 		} 
 	}

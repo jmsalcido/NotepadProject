@@ -16,7 +16,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -129,25 +128,8 @@ public class NotePadGPSActivity extends Activity {
      * Fill the application data (UI)
      */
     private void fillData() {
-    	// Logical work
-    	Cursor notes = mDbAdapter.fetchAllNotes();
-    	//startManagingCursor(notes);
-    	/*String titles[] = new String[notes.getCount()];
-    	mNotesId = new long[notes.getCount()];
-    	notes.moveToFirst();
-    	
-    	// Save the titles in an array to pass it to the adapter.
-    	for(int i = 0; i < titles.length ; i++) {
-    		Long id = notes.getLong(notes.getColumnIndexOrThrow(NotepadUtils.KEY_ROWID_DATABASE));
-    		String title = notes.getString(notes.getColumnIndexOrThrow(NotepadUtils.KEY_TITLE_DATABASE));
-    		titles[i] = fixTitle(title);
-    		mNotesId[i] = id;
-    		Log.v("Nota " + i, title);
-    		notes.moveToNext();
-    	}*/
-    	
     	// TODO This is some graphical work, actually working with GridView, should move it?
-    	mainGrid.setAdapter(new NotesGUIAdapter(this, notes));
+    	mainGrid.setAdapter(new NotesGUIAdapter(this, mDbAdapter.fetchAllNotes()));
     }
     
     /**
