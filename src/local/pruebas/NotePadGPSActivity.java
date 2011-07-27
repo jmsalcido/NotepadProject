@@ -38,7 +38,6 @@ public class NotePadGPSActivity extends Activity {
 	private GridView mainGrid;
 	private Button mainButtonAddNote;
 	private Button mainButtonShowMap;
-	private long mNotesId[];
 	
 	// CONSTANTS
 	private final int MAIN_BUTTON_ADD = 10;
@@ -149,18 +148,6 @@ public class NotePadGPSActivity extends Activity {
     	
     	// TODO This is some graphical work, actually working with GridView, should move it?
     	mainGrid.setAdapter(new NotesGUIAdapter(this, notes));
-    }
-    
-    /**
-     * fixTitle:
-     * Fixes the title in the mainGridTextView to get a cool and soft display
-     * @param title
-     * @return
-     */
-    private String fixTitle(String title) {
-    	// No of characters (add 3 '.' for the total No) to display at the mainGridTextView.
-    	int length = 12;
-    	return (title.length() <= length) ? title : title.substring(0, length) + "...";
     }
     
     /**

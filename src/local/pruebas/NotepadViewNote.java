@@ -135,8 +135,11 @@ public class NotepadViewNote extends Activity {
 			Cursor note = mDbAdapter.fetchNote(mRowId);
 			startManagingCursor(note);
 			// TODO Places
-			String title = note.getString(note.getColumnIndexOrThrow(NotepadUtils.KEY_TITLE_DATABASE));
 			String body  = note.getString(note.getColumnIndexOrThrow(NotepadUtils.KEY_BODY_DATABASE));
+			String title = note.getString(note.getColumnIndexOrThrow(NotepadUtils.KEY_TITLE_DATABASE));
+			
+			// Title hack
+			title = (title.equals("")) ? NotepadUtils.fixTitle(mContexto,title,body) : title;
 			noteTitleText.setText(title);
 			noteBodyText.setText(body);
 		}
@@ -160,8 +163,8 @@ public class NotepadViewNote extends Activity {
 	}
 	
 	/**
-	 * save:
-	 * This method will add or update the note, It is not calling the onSaveStatus so, shit nigga, im gonna hack this.
+	 * delete:
+	 * This method will delete a note.
 	 */
 	private void delete() {
 		mDbAdapter.deleteNote(mRowId);

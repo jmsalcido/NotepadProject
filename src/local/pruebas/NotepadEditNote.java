@@ -37,8 +37,6 @@ public class NotepadEditNote extends Activity {
 	// MENU OPTIONS EDIT/CREATE
 	private final static int MENU_SAVE = 0;
 	private final static int MENU_CANCEL = 1;
-	
-	// MENU OPTIONS VIEW
 
 	@Override
 	/**
@@ -166,8 +164,8 @@ public class NotepadEditNote extends Activity {
 	 * This method will add or update the note, It is not calling the onSaveStatus so, shit nigga, im gonna hack this.
 	 */
 	private void save() {
-		String title = noteTitleText.getText().toString();
 		String body = noteBodyText.getText().toString();
+		String title = noteTitleText.getText().toString();
 		if (mBehaviour == NotepadUtils.ADD_NOTE) {
 			long id = mDbAdapter.createNote(title, body);
 			if (id>0) {

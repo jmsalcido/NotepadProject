@@ -52,7 +52,7 @@ public class NotesGUIAdapter extends BaseAdapter {
 
 	/**
 	 * getItemId:
-	 * ??
+	 * return the id of a position
 	 */
 	public long getItemId(int position) {
 		mNotes.moveToPosition(position);
@@ -83,7 +83,7 @@ public class NotesGUIAdapter extends BaseAdapter {
 	    	
 	    	// Set the text as the title
 			TextView gridText = (TextView) layout.findViewById(R.id.gridTextView);
-			String title = getCursorTitle(position);
+			String title = getTitle(position);
 			gridText.setText(title);
 			// Dont change the image dinamically, it will be static content.
 		} else {
@@ -92,8 +92,30 @@ public class NotesGUIAdapter extends BaseAdapter {
 		return layout;
 	}
 	
-	private String getCursorTitle(int position) {
+	/**
+	 * getCursorTitle:
+	 * get
+	 * @param position
+	 * @return
+	 */
+	private String getTitle(int position) {
 		mNotes.moveToPosition(position);
-		return mNotes.getString(mNotes.getColumnIndexOrThrow(NotepadUtils.KEY_TITLE_DATABASE));
+		String body = mNotes.getString(mNotes.getColumnIndexOrThrow(NotepadUtils.KEY_BODY_DATABASE));
+		String title = mNotes.getString(mNotes.getColumnIndexOrThrow(NotepadUtils.KEY_TITLE_DATABASE));
+		return fixTitle(title, body);
 	}
+	
+	/**
+     * fixTitle:
+     * Fixes the title in the mainGridTextView to get a cool and soft display
+     * @param title
+     * @return
+     */
+    private String fixTitle(String title, String body) {
+    	// No of characters (add 3 '.' for the total No) to display at the mainGridTextView.
+    	int length = NotepadUtils.MIN_CHARACTERS;
+    	// Title hack
+		title = (title.equals("")) ? NotepadUtils.fixTitle(mContexto,title,body) : title;
+    	return (title.length() <= length) ? title : title.substring(0, length) + "...";
+    }
 }
