@@ -7,9 +7,11 @@
  */
 package local.pruebas.adaptadores;
 
+import local.pruebas.NotepadUtils;
 import local.pruebas.R;
 import android.content.Context;
 import android.content.res.Configuration;
+import android.database.Cursor;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,11 +26,11 @@ import android.widget.TextView;
  */
 public class NotesGUIAdapter extends BaseAdapter {
 	private Context mContexto;
-	private String[] mNoteTitles;
+	private Cursor mNotes;
 	
-	public NotesGUIAdapter(Context c, String[] titles) {
+	public NotesGUIAdapter(Context c, Cursor notes) {
 		mContexto = c;
-		mNoteTitles = titles;
+		mNotes = notes;
 	}
 	
 	/**
@@ -36,7 +38,7 @@ public class NotesGUIAdapter extends BaseAdapter {
 	 * get the count of notes, basically the number of notes in the db
 	 */
 	public int getCount() {
-		return mNoteTitles.length;
+		return mNotes.getCount();
 	}
 	
 	/**
@@ -52,9 +54,9 @@ public class NotesGUIAdapter extends BaseAdapter {
 	 * getItemId:
 	 * ??
 	 */
-	public long getItemId(int arg0) {
-		// TODO Auto-generated method stub
-		return 0;
+	public long getItemId(int position) {
+		mNotes.moveToPosition(position);
+		return mNotes.getLong(mNotes.getColumnIndexOrThrow(NotepadUtils.KEY_ROWID_DATABASE));
 	}
 
 	/**
@@ -64,7 +66,6 @@ public class NotesGUIAdapter extends BaseAdapter {
 	 * Added this way, if someone knows a better way change it.
 	 */
 	public View getView(int position, View convertView, ViewGroup parent) {
-		// TODO test this
 		View layout;
 		if(convertView == null) {
 			// JustMe saved the day at this point :)
@@ -82,11 +83,17 @@ public class NotesGUIAdapter extends BaseAdapter {
 	    	
 	    	// Set the text as the title
 			TextView gridText = (TextView) layout.findViewById(R.id.gridTextView);
-			gridText.setText(mNoteTitles[position]);
+			String title = getCursorTitle(position);
+			gridText.setText(title);
 			// Dont change the image dinamically, it will be static content.
 		} else {
 			layout = convertView;
 		}
 		return layout;
+	}
+	
+	private String getCursorTitle(int position) {
+		mNotes.moveToPosition(position);
+		return mNotes.getString(mNotes.getColumnIndexOrThrow(NotepadUtils.KEY_TITLE_DATABASE));
 	}
 }

@@ -1,7 +1,8 @@
 /*
  * NotePadGPSActivity.java
  * Monday, June 27th 2011
- *
+ *Anónimo dijo...
+Ni la subas al Android Market que mando una horda de niños zombies a votar negativos
  * Created by Jose Miguel Salcido Aguilar (jose152)
  * The brief description of the class is on Javadoc format.
  */
@@ -14,6 +15,7 @@ import local.pruebas.adaptadores.NotesGUIAdapter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.util.Log;
@@ -131,7 +133,7 @@ public class NotePadGPSActivity extends Activity {
     	// Logical work
     	Cursor notes = mDbAdapter.fetchAllNotes();
     	//startManagingCursor(notes);
-    	String titles[] = new String[notes.getCount()];
+    	/*String titles[] = new String[notes.getCount()];
     	mNotesId = new long[notes.getCount()];
     	notes.moveToFirst();
     	
@@ -143,10 +145,10 @@ public class NotePadGPSActivity extends Activity {
     		mNotesId[i] = id;
     		Log.v("Nota " + i, title);
     		notes.moveToNext();
-    	}
+    	}*/
     	
     	// TODO This is some graphical work, actually working with GridView, should move it?
-    	mainGrid.setAdapter(new NotesGUIAdapter(this, titles));
+    	mainGrid.setAdapter(new NotesGUIAdapter(this, notes));
     }
     
     /**
@@ -166,6 +168,9 @@ public class NotePadGPSActivity extends Activity {
      * Fill the UI Elements
      */
     private void initUIElements() {
+    	// No of Columns in PORTRAIT
+    	int numColumns = 3; 
+    	
     	// Graphical elements
     	mainGrid = (GridView) findViewById(R.id.mainGrid);
     	mainButtonAddNote = (Button) findViewById(R.id.mainButtonAddNote);
@@ -175,6 +180,13 @@ public class NotePadGPSActivity extends Activity {
     	mainGrid.setOnItemClickListener(new GridClick());
     	mainButtonAddNote.setOnClickListener(new ClickEvents(MAIN_BUTTON_ADD));
     	mainButtonShowMap.setOnClickListener(new ClickEvents(MAIN_BUTTON_VIEW));
+    	
+    	// Check the orientation of the device
+		int orientation = mContexto.getResources().getConfiguration().orientation;
+    	if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+    		numColumns = 2;
+    		mainGrid.setNumColumns(numColumns);
+    	}
     }
     
     /**
@@ -203,7 +215,7 @@ public class NotePadGPSActivity extends Activity {
     		try {
     			Intent intent = new Intent(mContexto, NotepadViewNote.class);
     			intent.putExtra(NotepadUtils.KEY_BEHAVIOUR_NOTE, NotepadUtils.VIEW_NOTES);
-    			intent.putExtra(NotepadUtils.KEY_ROWID_DATABASE, mNotesId[position]);
+    			intent.putExtra(NotepadUtils.KEY_ROWID_DATABASE, id);
 				startActivityForResult(intent, NotepadUtils.VIEW_NOTES);
     		} catch (Exception ex) {
     			return;

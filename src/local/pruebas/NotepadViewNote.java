@@ -22,6 +22,10 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.TextView;
 
+/**
+ * NotepadViewNote:
+ * Activity destined to view and delete notes
+ */
 public class NotepadViewNote extends Activity {
 	
 	private Context mContexto;

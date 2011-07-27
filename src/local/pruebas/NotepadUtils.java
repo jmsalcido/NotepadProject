@@ -1,10 +1,17 @@
+/*
+ * NotePadGPSActivity.java
+ * Tuesday, July 26th 2011
+ *
+ * Created by Jose Miguel Salcido Aguilar (jose152)
+ * The brief description of the class is on Javadoc format.
+ */
 package local.pruebas;
 
 import local.pruebas.adaptadores.DatabaseAdapter;
 
 /**
- * Tools:
- * I think this is not the name Im looking for, maybe helper?, handler?, I dont know... that's why I called it Tools.
+ * NotepadUtils:
+ * All the constants used widely the app will be here and other routines.
  */
 public class NotepadUtils {
 	// GENERAL
