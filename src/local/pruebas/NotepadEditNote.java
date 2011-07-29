@@ -49,7 +49,7 @@ public class NotepadEditNote extends Activity {
 		mContexto = getApplicationContext();
 		mDbAdapter = new DatabaseAdapter(mContexto);
 		mDbAdapter.open(NotepadUtils.OPTION_NOTES_DATABASE);
-		mBehaviour = getBehaviour(savedInstanceState);
+		mBehaviour = setBehaviour(savedInstanceState);
 		mRowId = getRowId(savedInstanceState);
 		initUIElements();
 		fillApp();
@@ -66,6 +66,14 @@ public class NotepadEditNote extends Activity {
 		// TODO Places and all these things
 	}
 	
+	@Override
+	/**
+	 * onRetainNonConfigurationInstance
+	 */
+	public Object onRetainNonConfigurationInstance() {
+		return mRowId;
+	}
+
 	/**
 	 * fillApp:
 	 * Fills all the activity data: title, body and place of the note with id: mRowId.
@@ -79,6 +87,9 @@ public class NotepadEditNote extends Activity {
 			String body  = note.getString(note.getColumnIndexOrThrow(NotepadUtils.KEY_BODY_DATABASE));
 			noteTitleText.setText(title);
 			noteBodyText.setText(body);
+		} else {
+			// If no mRowId is supplied this must die.
+			finish();
 		}
 	}
 	
@@ -121,7 +132,6 @@ public class NotepadEditNote extends Activity {
 		default:
 			break;
 		}
-		// return the action? - SDK Default STUB
 		return super.onOptionsItemSelected(item);
 	}
 
@@ -131,7 +141,7 @@ public class NotepadEditNote extends Activity {
 	 * @param savedInstanceState
 	 * @return
 	 */
-	private int getBehaviour(Bundle savedInstanceState) {
+	private int setBehaviour(Bundle savedInstanceState) {
 		Integer behaviour;
 		if (savedInstanceState == null) {
 			Bundle extras = getIntent().getExtras();
@@ -150,13 +160,19 @@ public class NotepadEditNote extends Activity {
 	 */
 	private long getRowId(Bundle savedInstanceState) {
 		Long rowId;
-		//(savedInstanceState == null) ? null : (Long) savedInstanceState.getSerializable(Tools.KEY_ROWID_DATABASE);
 		if (savedInstanceState == null) {
 			Bundle extras = getIntent().getExtras();
 			rowId = extras.getLong(NotepadUtils.KEY_ROWID_DATABASE);
 		} else
 			rowId = (Long) savedInstanceState.getSerializable(NotepadUtils.KEY_ROWID_DATABASE);
 		return (rowId != null) ? rowId : NotepadUtils.ERROR;
+	}
+	
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		outState.putLong(NotepadUtils.KEY_ROWID_DATABASE, mRowId);
+		outState.putInt(NotepadUtils.KEY_BEHAVIOUR_NOTE, mBehaviour);
+		super.onSaveInstanceState(outState);
 	}
 	
 	/**

@@ -68,7 +68,7 @@ public class NotesGUIAdapter extends BaseAdapter {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		View layout;
 		if(convertView == null) {
-			// JustMe saved the day at this point :)
+			// Create the LayoutInflater
 			LayoutInflater layoutInflater = 
 				(LayoutInflater) mContexto.getApplicationContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 			
@@ -85,7 +85,6 @@ public class NotesGUIAdapter extends BaseAdapter {
 			TextView gridText = (TextView) layout.findViewById(R.id.gridTextView);
 			String title = getTitle(position);
 			gridText.setText(title);
-			// Dont change the image dinamically, it will be static content.
 		} else {
 			layout = convertView;
 		}
@@ -114,8 +113,11 @@ public class NotesGUIAdapter extends BaseAdapter {
     private String fixTitle(String title, String body) {
     	// No of characters (add 3 '.' for the total No) to display at the mainGridTextView.
     	int length = NotepadUtils.MIN_CHARACTERS;
+    	String empty = "";
+    	if (title.equals(empty)) {
+    		title = body;
+    	}
     	// Title hack
-		title = (title.equals("")) ? NotepadUtils.fixTitle(mContexto,title,body) : title;
-    	return (title.length() <= length) ? title : title.substring(0, length) + "...";
+		return (title.length() <= length) ? title : title.substring(0, length);
     }
 }

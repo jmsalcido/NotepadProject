@@ -15,6 +15,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -109,7 +110,6 @@ public class NotepadViewNote extends Activity {
 		default:
 			break;
 		}
-		// return the action? - SDK Default STUB
 		return super.onOptionsItemSelected(item);
 	}
 	
@@ -126,11 +126,18 @@ public class NotepadViewNote extends Activity {
 		// TODO Places and all these things
 	}
 	
+	@Override
+	protected void onSaveInstanceState(Bundle outState) {
+		outState.putLong(NotepadUtils.KEY_ROWID_DATABASE, mRowId);
+		super.onSaveInstanceState(outState);
+	}
+
 	/**
 	 * fillApp:
 	 * Fills all the activity data: title, body and place of the note with id: mRowId.
 	 */
 	private void fillApp() {
+		Log.v("ROWID", mRowId + "");
 		if (mRowId != null) {
 			Cursor note = mDbAdapter.fetchNote(mRowId);
 			startManagingCursor(note);
@@ -139,7 +146,9 @@ public class NotepadViewNote extends Activity {
 			String title = note.getString(note.getColumnIndexOrThrow(NotepadUtils.KEY_TITLE_DATABASE));
 			
 			// Title hack
-			title = (title.equals("")) ? NotepadUtils.fixTitle(mContexto,title,body) : title;
+			String defaultNoteName = "Note";//getString(R.string.defaultNoteName);
+			title = (title.equals("")) ? defaultNoteName : title;
+			
 			noteTitleText.setText(title);
 			noteBodyText.setText(body);
 		}
@@ -153,6 +162,7 @@ public class NotepadViewNote extends Activity {
 	 */
 	private long getRowId(Bundle savedInstanceState) {
 		Long rowId;
+		Log.v("BUNDLESTATE", (savedInstanceState == null) + "");
 		//(savedInstanceState == null) ? null : (Long) savedInstanceState.getSerializable(Tools.KEY_ROWID_DATABASE);
 		if (savedInstanceState == null) {
 			Bundle extras = getIntent().getExtras();

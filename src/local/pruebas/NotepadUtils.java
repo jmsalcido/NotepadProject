@@ -45,7 +45,8 @@ public class NotepadUtils {
 	 * @return
 	 */
 	public static String fixTitle(Context context, String title, String body) {
-		int minCharacters = NotepadUtils.MIN_CHARACTERS;
+		// minCharacters to display, -1 because im a wizard.
+		int minCharacters = MIN_CHARACTERS - 1;
 		String empty = "";
 		if (title.equals(empty) && body.length() < minCharacters)
 			title = context.getResources().getString(R.string.defaultNoteName);
