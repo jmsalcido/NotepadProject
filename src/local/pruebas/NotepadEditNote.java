@@ -182,9 +182,14 @@ public class NotepadEditNote extends Activity {
 		String body = noteBodyText.getText().toString();
 		String title = noteTitleText.getText().toString();
 		
+		Toast msg = Toast.makeText(mContexto, R.string.emptyNote, Toast.LENGTH_SHORT);
+		
 		// NO EMPTY NOTES HACK
 		if (body.equals("") && title.equals("")) {
-			Toast.makeText(mContexto, R.string.emptyNote, Toast.LENGTH_SHORT).show();
+			msg.show();
+			return;
+		} else if (body.equals("")) {
+			msg.show();
 			return;
 		}
 		
@@ -193,12 +198,14 @@ public class NotepadEditNote extends Activity {
 			long id = mDbAdapter.createNote(title, body);
 			if (id>0) {
 				mRowId = id;
-				finish();
 			}
 		} else {
 			// UPDATE Note
 			mDbAdapter.updateNote(mRowId, title, body);
 		} 
+		
+		// Finish Activity only when it comes to this point
+		finish();
 	}
 	
 }
