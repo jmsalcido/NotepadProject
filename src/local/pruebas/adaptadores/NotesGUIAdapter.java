@@ -31,6 +31,8 @@ public class NotesGUIAdapter extends BaseAdapter {
 	public NotesGUIAdapter(Context c, Cursor notes) {
 		mContexto = c;
 		mNotes = notes;
+		if (notes.getCount() == 0)
+			android.util.Log.v("ADAPTER", "0 NOTAS");
 	}
 	
 	/**

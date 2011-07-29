@@ -17,6 +17,7 @@
     <string name="noteMenuEdit">Edit Note</string>
     <string name="noteMenuDelete">Delete Note</string>
     <string name="noteMenuCancel">Cancel</string>
+    <string name="emptyNote">Empty Note</string>
     
     <!-- Default -->
     <string name="defaultNoteName">Note</string>

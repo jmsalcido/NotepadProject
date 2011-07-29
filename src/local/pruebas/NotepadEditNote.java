@@ -18,6 +18,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.EditText;
+import android.widget.Toast;
 
 /**
  * NotepadEditNote:
@@ -88,8 +89,7 @@ public class NotepadEditNote extends Activity {
 			noteTitleText.setText(title);
 			noteBodyText.setText(body);
 		} else {
-			// If no mRowId is supplied this must die.
-			finish();
+			// Nothing, if the rowId is NotepadUtils.ERROR, then it must be ADD_NOTE or ... just a bug.
 		}
 	}
 	
@@ -124,7 +124,6 @@ public class NotepadEditNote extends Activity {
 		switch(MENU_OPTION) {
 		case MENU_SAVE:
 			save();
-			finish();
 			return true;
 		case MENU_CANCEL:
 			finish();
@@ -184,13 +183,17 @@ public class NotepadEditNote extends Activity {
 		String title = noteTitleText.getText().toString();
 		
 		// NO EMPTY NOTES HACK
-		if (body.equals("") && title.equals("")) return;
+		if (body.equals("") && title.equals("")) {
+			Toast.makeText(mContexto, R.string.emptyNote, Toast.LENGTH_SHORT).show();
+			return;
+		}
 		
 		// Check if the behaviour is ADD_NOTE
 		if (mBehaviour == NotepadUtils.ADD_NOTE) {
 			long id = mDbAdapter.createNote(title, body);
 			if (id>0) {
 				mRowId = id;
+				finish();
 			}
 		} else {
 			// UPDATE Note
