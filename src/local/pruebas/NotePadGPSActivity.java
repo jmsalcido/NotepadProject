@@ -221,8 +221,9 @@ public class NotePadGPSActivity extends Activity {
 				startActivityForResult(intent, NotepadUtils.ADD_NOTE);
 				break;
 			case MAIN_BUTTON_VIEW:
-				testAddNotes(true);
-				fillData();
+				intent = new Intent(mContexto, NotepadMapActivity.class);
+				//must add the location here
+				startActivity(intent);
 				break;
 			default:
 				Toast.makeText(mContexto, "OOPS", Toast.LENGTH_SHORT).show();

@@ -129,7 +129,8 @@ public class NotepadEditNote extends Activity {
 			finish();
 			return true;
 		default:
-			break;
+			// Close, this option never should work.
+			finish();
 		}
 		return super.onOptionsItemSelected(item);
 	}

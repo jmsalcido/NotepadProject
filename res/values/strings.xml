@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<!-- Main Activity -->
-    <string name="hello">Hello World, NotePadGPSActivity!</string>
-    <string name="app_name">NotePadGPS</string>
+    <string name="app_name">Remember Me</string> <!-- Not final name -->
     <string name="mainButtonAddNote">Add Note</string>
     <string name="mainButtonShowMap">Show in Map</string>
     

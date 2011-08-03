@@ -5,7 +5,6 @@
  * Created by Jose Miguel Salcido Aguilar (jose152)
  * The brief description of the class is on Javadoc format.
  */
-// TODO Locations
 package local.pruebas.adaptadores;
 
 import local.pruebas.NotepadUtils;
@@ -32,8 +31,6 @@ public class NotesGUIAdapter extends BaseAdapter {
 	public NotesGUIAdapter(Context c, Cursor notes) {
 		mContexto = c;
 		mNotes = notes;
-		if (notes.getCount() == 0)
-			android.util.Log.v("ADAPTER", "0 NOTAS");
 	}
 	
 	/**
