@@ -12,6 +12,7 @@ import local.pruebas.R;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.database.Cursor;
+import android.text.InputFilter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,12 +31,10 @@ public class NotesGUIAdapter extends BaseAdapter {
 	private String[] mTitles;
 	private int mCount;
 	
-	public NotesGUIAdapter(Context context, Cursor cursor) {
+	public NotesGUIAdapter(Context context, Cursor notes) {
 		mContexto = context;
 		// PRUEBA
-		Cursor notes = cursor;
 		fillData(notes);
-		notes = null;
 	}
 	
 	/**
@@ -98,21 +97,37 @@ public class NotesGUIAdapter extends BaseAdapter {
 			
 			layout = layoutInflater.inflate(R.layout.maingridlayout, null);
 			
+			TextView gridText = (TextView) layout.findViewById(R.id.gridTextView);
+			
 			// Check the orientation of the device
 			int orientation = mContexto.getResources().getConfiguration().orientation;
 	    	if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
 	    		LinearLayout mainGridLinearLayout = (LinearLayout) layout.findViewById(R.id.mainGridLinearLayout);
 	    		mainGridLinearLayout.setOrientation(LinearLayout.HORIZONTAL);
-	    	} else; // Nothing.
-	    	
+	    		gridText = setMaxLength(gridText);
+	    	} else {
+	    		// DO NOTHING.
+	    	}
 	    	// Set the text as the title
-			TextView gridText = (TextView) layout.findViewById(R.id.gridTextView);
 			String title = getTitle(position);
 			gridText.setText(title);
 		} else {
 			layout = convertView;
 		}
 		return layout;
+	}
+	
+	private TextView setMaxLength(TextView gridText) {
+		// WHY THE MAGIC NUMBERS?
+		// Welp: InputFilter length 1, this could be added in notepadutils... would be fit better? i dont know.
+		//
+		// WHY NULL?
+		// Welp: Fucking memory usage is, emm, HUGE!.
+		InputFilter[] maxLength = new InputFilter[1];
+		maxLength[maxLength.length-1] = new InputFilter.LengthFilter(NotepadUtils.MAX_CHARACTERS_HORIZONTAL);
+		gridText.setFilters(maxLength);
+		maxLength = null;
+		return gridText;
 	}
 	
 	/**
@@ -124,21 +139,4 @@ public class NotesGUIAdapter extends BaseAdapter {
 	private String getTitle(int position) {
 		return mTitles[position];
 	}
-	
-	/**
-     * fixTitle:
-     * Fixes the title in the mainGridTextView to get a cool and soft display
-     * @param title
-     * @return
-     */
-    private String fixTitle(String title, String body) {
-    	// No of characters (add 3 '.' for the total No) to display at the mainGridTextView.
-    	int length = NotepadUtils.MIN_CHARACTERS;
-    	String empty = "";
-    	if (title.equals(empty)) {
-    		title = body;
-    	}
-    	// Title hack
-		return (title.length() <= length) ? title : title.substring(0, length);
-    }
 }

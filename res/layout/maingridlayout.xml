@@ -2,15 +2,16 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
   android:id="@+id/mainGridLinearLayout"
   android:orientation="vertical"
-  android:layout_width="fill_parent"
-  android:layout_height="fill_parent">
+  android:layout_width="wrap_content"
+  android:layout_height="wrap_content">
   <ImageView android:id="@+id/gridImageView"
   			 android:layout_gravity="center_vertical|center_horizontal"
   			 android:layout_width="wrap_content"
   			 android:layout_height="wrap_content"
   			 android:src="@drawable/icon"/>
+  <!-- How to add custom resources next research or not -->
   <TextView android:id="@+id/gridTextView"
-  			android:maxLength="12"
+  			android:maxLength="15"
   			android:layout_gravity="center_vertical|center_horizontal"
   			android:layout_width="wrap_content"
   			android:layout_height="wrap_content"/>

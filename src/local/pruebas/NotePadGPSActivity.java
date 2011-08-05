@@ -119,8 +119,7 @@ public class NotePadGPSActivity extends Activity {
     	// UI work
 		initUIElements();
 		fillData();
-    	// TODO check if the user is in a place so we can alert him
-		// allmost all
+    	// TODO check if the user is in a place so we can alert him, almost all.
 	}
     
     /**
@@ -128,7 +127,6 @@ public class NotePadGPSActivity extends Activity {
      * Fill the application data (UI)
      */
     private void fillData() {
-    	// TODO This is some graphical work, actually working with GridView, should move it?
     	mainGrid.setAdapter(new NotesGUIAdapter(this, mDbAdapter.fetchAllNotes()));
     }
     
@@ -137,9 +135,6 @@ public class NotePadGPSActivity extends Activity {
      * Fill the UI Elements
      */
     private void initUIElements() {
-    	// No of Columns in PORTRAIT
-    	int numColumns = 3; 
-    	
     	// Graphical elements
     	mainGrid = (GridView) findViewById(R.id.mainGrid);
     	mainButtonAddNote = (Button) findViewById(R.id.mainButtonAddNote);
@@ -150,12 +145,16 @@ public class NotePadGPSActivity extends Activity {
     	mainButtonAddNote.setOnClickListener(new ClickEvents(MAIN_BUTTON_ADD));
     	mainButtonShowMap.setOnClickListener(new ClickEvents(MAIN_BUTTON_VIEW));
     	
+    	// No of Columns in PORTRAIT
+    	int numColumns; 
     	// Check the orientation of the device
 		int orientation = mContexto.getResources().getConfiguration().orientation;
     	if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
     		numColumns = 2;
-    		mainGrid.setNumColumns(numColumns);
+    	} else {
+    		numColumns = 3; 
     	}
+    	mainGrid.setNumColumns(numColumns);
     }
     
     /**

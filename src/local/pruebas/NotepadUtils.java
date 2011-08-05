@@ -7,7 +7,6 @@
  */
 package local.pruebas;
 
-import android.content.Context;
 import local.pruebas.adaptadores.DatabaseAdapter;
 
 /**
@@ -15,9 +14,11 @@ import local.pruebas.adaptadores.DatabaseAdapter;
  * All the constants used widely the app will be here and other routines.
  */
 public class NotepadUtils {
+	
 	// GENERAL
 	public static int ERROR = -1;
-	public static final int MIN_CHARACTERS = 12;
+	public static final int MAX_CHARACTERS_VERTICAL = 15;
+	public static final int MAX_CHARACTERS_HORIZONTAL = 25;
 	public static final String FIRST_TAG = "[FIRST]";
 	public static final String NORMAL_TAG = "[NORMAL]";
 	public static final String DEBUG_TAG = "[DEBUG]";
@@ -37,23 +38,4 @@ public class NotepadUtils {
 	public final static int VIEW_NOTES = 2;
 	public final static int DELETE_NOTES = 3;
 	public final static int ADD_NOTE = 4;
-	
-	/**
-	 * Change
-	 * @param title
-	 * @param body
-	 * @return
-	 */
-	public static String fixTitle(Context context, String title, String body) {
-		// minCharacters to display, -1 because im a wizard.
-		int minCharacters = MIN_CHARACTERS - 1;
-		String empty = "";
-		if (title.equals(empty) && body.length() < minCharacters)
-			title = context.getResources().getString(R.string.defaultNoteName);
-		else {
-			if (title.equals(empty))
-				title = body.substring(0,minCharacters);
-		}
-		return title + "...";
-	}
 }
