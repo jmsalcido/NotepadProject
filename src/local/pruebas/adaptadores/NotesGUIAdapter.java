@@ -26,11 +26,36 @@ import android.widget.TextView;
  */
 public class NotesGUIAdapter extends BaseAdapter {
 	private Context mContexto;
-	private Cursor mNotes;
+	private Long[] mIds;
+	private String[] mTitles;
+	private int mCount;
 	
-	public NotesGUIAdapter(Context c, Cursor notes) {
-		mContexto = c;
-		mNotes = notes;
+	public NotesGUIAdapter(Context context, Cursor cursor) {
+		mContexto = context;
+		// PRUEBA
+		Cursor notes = cursor;
+		fillData(notes);
+		notes = null;
+	}
+	
+	/**
+	 * fillData:
+	 * fill all the data needed by the adapter
+	 * WHY: reduce ram usage a-lot (at least on my phone)
+	 * @param notes
+	 */
+	private void fillData(Cursor notes) {
+		// Must be on first always
+		notes.moveToFirst();
+		mCount = notes.getCount();
+		mIds = new Long[mCount];
+		mTitles = new String[mCount];
+		
+		for (int i = 0; i < mCount; i++) {
+			mIds[i] = notes.getLong(notes.getColumnIndexOrThrow(NotepadUtils.KEY_ROWID_DATABASE));
+			mTitles[i] = notes.getString(notes.getColumnIndexOrThrow(NotepadUtils.KEY_TITLE_DATABASE));
+			notes.moveToNext();
+		}
 	}
 	
 	/**
@@ -38,7 +63,7 @@ public class NotesGUIAdapter extends BaseAdapter {
 	 * get the count of notes, basically the number of notes in the db
 	 */
 	public int getCount() {
-		return mNotes.getCount();
+		return mCount;
 	}
 	
 	/**
@@ -55,8 +80,7 @@ public class NotesGUIAdapter extends BaseAdapter {
 	 * return the id of a position
 	 */
 	public long getItemId(int position) {
-		mNotes.moveToPosition(position);
-		return mNotes.getLong(mNotes.getColumnIndexOrThrow(NotepadUtils.KEY_ROWID_DATABASE));
+		return mIds[position];
 	}
 
 	/**
@@ -79,7 +103,7 @@ public class NotesGUIAdapter extends BaseAdapter {
 	    	if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
 	    		LinearLayout mainGridLinearLayout = (LinearLayout) layout.findViewById(R.id.mainGridLinearLayout);
 	    		mainGridLinearLayout.setOrientation(LinearLayout.HORIZONTAL);
-	    	} else;
+	    	} else; // Nothing.
 	    	
 	    	// Set the text as the title
 			TextView gridText = (TextView) layout.findViewById(R.id.gridTextView);
@@ -98,10 +122,7 @@ public class NotesGUIAdapter extends BaseAdapter {
 	 * @return
 	 */
 	private String getTitle(int position) {
-		mNotes.moveToPosition(position);
-		String body = mNotes.getString(mNotes.getColumnIndexOrThrow(NotepadUtils.KEY_BODY_DATABASE));
-		String title = mNotes.getString(mNotes.getColumnIndexOrThrow(NotepadUtils.KEY_TITLE_DATABASE));
-		return fixTitle(title, body);
+		return mTitles[position];
 	}
 	
 	/**
