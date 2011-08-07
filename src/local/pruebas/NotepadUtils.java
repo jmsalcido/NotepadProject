@@ -1,5 +1,5 @@
 /*
- * NotePadGPSActivity.java
+ * NotepadUtils.java
  * Tuesday, July 26th 2011
  *
  * Created by Jose Miguel Salcido Aguilar (jose152)
