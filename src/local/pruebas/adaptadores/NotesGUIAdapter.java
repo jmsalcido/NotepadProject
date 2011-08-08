@@ -89,7 +89,15 @@ public class NotesGUIAdapter extends BaseAdapter {
 	 * Added this way, if someone knows a better way change it.
 	 */
 	public View getView(int position, View convertView, ViewGroup parent) {
+		// Create a View resource to use and return
 		View layout;
+		
+		// Less usage of resources
+		if(mCount == position) {
+			mTitles = null;
+		}
+		
+		// Check if the old view is null
 		if(convertView == null) {
 			// Create the LayoutInflater
 			LayoutInflater layoutInflater = 
@@ -99,7 +107,7 @@ public class NotesGUIAdapter extends BaseAdapter {
 			
 			TextView gridText = (TextView) layout.findViewById(R.id.gridTextView);
 			
-			// Check the orientation of the device
+			// Check the orientation of the device and make proper changes
 			int orientation = mContexto.getResources().getConfiguration().orientation;
 	    	if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
 	    		LinearLayout mainGridLinearLayout = (LinearLayout) layout.findViewById(R.id.mainGridLinearLayout);

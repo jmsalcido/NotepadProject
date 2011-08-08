@@ -18,6 +18,9 @@
     <string name="noteMenuCancel">Cancel</string>
     <string name="emptyNote">Empty Note</string>
     
+    <!-- Locations -->
+    <string name="locationProviderNotFound">not enabled.</string>
+    
     <!-- Default -->
     <string name="defaultNoteName">Note</string>
 </resources>
