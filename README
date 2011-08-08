@@ -2,9 +2,18 @@
 NotePadGPS - Remember Me
 ========================
 
+Here you go my fellow coder:
+
 New Android Programming Quest for these adventurers who like to start programming without a reason.
 
 A new project must be created apart.
+
+For those who want to code: NotePadGPSActivity.java is the file where you should start, any changes push them or contact: jose152 AT otfusion DOT org.
+
+
+Actually the Map Activity will use the last known location first and then try to update it with the menu (no Icons for the menu options yet), I dont know if it should start listening as soon it starts the Activity, you know... battery usage and those things.
+
+At least, I hope you like our style.
 
 Using:
 - Locations api*
@@ -14,8 +23,8 @@ Main commiters:
 jose152
 albertoruiz37
 
-Academic/Personal purpose
+Academic/Personal purpose only
 
 
-* NOT YET IMPLEMENTED.
-** OH IT LOOKS SO NICE IN THE GALAXY ACE.
+* NOT YEY FULLY IMPLEMENTD
+** OH IT LOOKS SO NICE IN THE GALAXY ACE AND IT IS... WELL OKAY.
