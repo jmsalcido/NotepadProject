@@ -13,7 +13,7 @@ For those who want to code: NotePadGPSActivity.java is the file where you should
 
 Actually the Map Activity will use the last known location first and then try to update it with the menu (no Icons for the menu options yet), I dont know if it should start listening as soon it starts the Activity, you know... battery usage and those things.
 
-AT least, I hope you like our style.
+At least, I hope you like our style.
 
 Using:
 - Locations api*
