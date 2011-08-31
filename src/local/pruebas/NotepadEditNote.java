@@ -88,6 +88,9 @@ public class NotepadEditNote extends Activity {
 			String body  = note.getString(note.getColumnIndexOrThrow(NotepadUtils.KEY_BODY_DATABASE));
 			noteTitleText.setText(title);
 			noteBodyText.setText(body);
+			
+			// Erase the cursor
+			note = null;
 		} else {
 			// Nothing, if the rowId is NotepadUtils.ERROR, then it must be ADD_NOTE or ... just a bug.
 		}

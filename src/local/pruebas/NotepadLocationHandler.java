@@ -9,7 +9,6 @@ package local.pruebas;
 
 import com.google.android.maps.GeoPoint;
 import com.google.android.maps.MapController;
-import com.google.android.maps.MapView;
 
 import android.content.Context;
 import android.location.Location;
@@ -41,9 +40,10 @@ public class NotepadLocationHandler {
 		// Check if this will happen
 		if(makeUseOf) {
 			mLocation = mLocationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-			if(mLocation == null)
+			if(mLocation == null) {
 				Toast.makeText(mContexto, "shit nigga", 100).show();
 				mLocation = mLocationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+			}
 			moveView();
 		} else {
 			// Nothing to do here
@@ -63,14 +63,14 @@ public class NotepadLocationHandler {
 	}
 	
 	private static final long MIN_GPS_TIME = 10000 * 60 * 2; // almost two minutes
-	//private static final long MIN_NETWORK_TIME = 10000 * 30; // almost two minutes
+	private static final long MIN_NETWORK_TIME = 10000 * 30; // almost thirty seconds
 	
 	public void updateLocation() {
 		// Check if GPS is enabled if not, use Network provider
 		if(mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
 			mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, MIN_GPS_TIME, 0, listener);
 		} else {
-			mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 1, 0, listener);
+			mLocationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, MIN_NETWORK_TIME, 0, listener);
 		}
 	}
 	
@@ -79,11 +79,15 @@ public class NotepadLocationHandler {
 	}
 	
 	private void moveView(MapController mapController) {
-		int latitude = (int) (mLocation.getLatitude() * 1e6);
-		int longitude = (int) (mLocation.getLongitude() * 1e6);
-		GeoPoint point = new GeoPoint(latitude, longitude);
-		mapController.setCenter(point);
-		mapController.setZoom(15);
+		if (mLocation != null) {
+			int latitude = (int) (mLocation.getLatitude() * 1e6);
+			int longitude = (int) (mLocation.getLongitude() * 1e6);
+			GeoPoint point = new GeoPoint(latitude, longitude);
+			mapController.setCenter(point);
+			mapController.setZoom(15);
+		} else {
+			Toast.makeText(mContexto, "mLocation == null", Toast.LENGTH_SHORT).show();
+		}
 	}
 	
 	private LocationListener listener = new LocationListener() {

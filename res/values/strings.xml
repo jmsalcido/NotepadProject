@@ -16,6 +16,7 @@
     <string name="noteMenuEdit">Edit Note</string>
     <string name="noteMenuDelete">Delete Note</string>
     <string name="noteMenuCancel">Cancel</string>
+    <string name="noteMenuShare">Share</string>
     <string name="emptyNote">Empty Note</string>
     
     <!-- Locations -->
@@ -23,4 +24,8 @@
     
     <!-- Default -->
     <string name="defaultNoteName">Note</string>
+    
+    <!-- Share -->
+    <string name="shareSend">Share a note...</string>
+    <string name="shareNoClient">Install at least one application to share text!</string>
 </resources>

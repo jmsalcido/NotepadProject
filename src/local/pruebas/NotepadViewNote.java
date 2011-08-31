@@ -10,6 +10,7 @@
 package local.pruebas;
 
 import local.pruebas.adaptadores.DatabaseAdapter;
+import local.pruebas.util.Sender;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -40,7 +41,8 @@ public class NotepadViewNote extends Activity {
 	
 	// MENU OPTIONS VIEW/DELETE
 	private final static int MENU_EDIT = 1;
-	private final static int MENU_DELETE = 2;
+	private final static int MENU_SHARE = 2;
+	private final static int MENU_DELETE = 3;
 	
 	@Override
 	/**
@@ -85,6 +87,7 @@ public class NotepadViewNote extends Activity {
 	public boolean onCreateOptionsMenu(Menu menu) {
 		int magic_number = 0; // ??, I have used 0 all the time here but I dont know why, so it is a magic number.
 		menu.add(magic_number, MENU_EDIT, MENU_EDIT, R.string.noteMenuEdit);
+		menu.add(magic_number, MENU_SHARE, MENU_SHARE, R.string.noteMenuShare);
 		menu.add(magic_number, MENU_DELETE, MENU_DELETE, R.string.noteMenuDelete);
 		return super.onCreateOptionsMenu(menu);
 	}
@@ -96,13 +99,20 @@ public class NotepadViewNote extends Activity {
 	 */
 	public boolean onOptionsItemSelected(MenuItem item) {
 		int MENU_OPTION = item.getItemId();
+		Intent intent;
 		switch(MENU_OPTION) {
+		case MENU_SHARE:
+			String subject = noteTitleText.getText().toString();
+			String body = noteBodyText.getText().toString();
+			Sender sender = new Sender(this, subject, body);
+			sender.shareNote();
+			return true;
 		case MENU_DELETE:
 			delete();
 			finish();
 			return true;
 		case MENU_EDIT:
-			Intent intent = new Intent(mContexto, NotepadEditNote.class);
+			intent = new Intent(mContexto, NotepadEditNote.class);
 			intent.putExtra(NotepadUtils.KEY_BEHAVIOUR_NOTE, NotepadUtils.EDIT_NOTES);
 			intent.putExtra(NotepadUtils.KEY_ROWID_DATABASE, mRowId);
 			startActivityForResult(intent, NotepadUtils.EDIT_NOTES);
@@ -151,6 +161,9 @@ public class NotepadViewNote extends Activity {
 			
 			noteTitleText.setText(title);
 			noteBodyText.setText(body);
+			
+			// Erase the cursor
+			note = null;
 		}
 	}
 	
