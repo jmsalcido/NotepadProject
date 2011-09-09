@@ -2,7 +2,9 @@
 NotePadGPS - Remember Me
 ========================
 
-stupid notebook
+Remember Me is an Android application for the users who forget to do things, like buying milk when they are near a store*. It looks like a normal notepad application but it can be used as a reminder, just share your note by email with your co-workers by email, sms, via facebook, twitter and voilá, you just send a note.
+
+Maybe in the future it will be able to import notes from other notepad apps and that!, you could do that work.
 
 Here you go my fellow coder:
 
@@ -10,7 +12,7 @@ New Android Programming Quest for these adventurers who like to start programmin
 
 A new project must be created apart.
 
-For those who want to code: NotePadGPSActivity.java is the file where you should start, any changes push them or contact: jose152 AT otfusion DOT org.
+For those who want to code: NotePadMainActivity.java is the file where you should start, any changes push them or contact: jose152 AT otfusion DOT org.
 
 
 Actually the Map Activity will use the last known location first and then try to update it with the menu (no Icons for the menu options yet), I dont know if it should start listening as soon it starts the Activity, you know... battery usage and those things.
@@ -25,7 +27,7 @@ Main commiters:
 jose152
 albertoruiz37
 
-Academic/Personal purpose only
+Academic/Personal purposes only
 
 
 * NOT YEY FULLY IMPLEMENTD
