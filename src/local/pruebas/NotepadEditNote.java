@@ -83,6 +83,7 @@ public class NotepadEditNote extends Activity {
 		if (mRowId != null && mBehaviour == NotepadUtils.EDIT_NOTES) {
 			Cursor note = mDbAdapter.fetchNote(mRowId);
 			startManagingCursor(note);
+			
 			// TODO Places
 			String title = note.getString(note.getColumnIndexOrThrow(NotepadUtils.KEY_TITLE_DATABASE));
 			String body  = note.getString(note.getColumnIndexOrThrow(NotepadUtils.KEY_BODY_DATABASE));

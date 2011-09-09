@@ -44,6 +44,10 @@ public class NotepadViewNote extends Activity {
 	private final static int MENU_SHARE = 2;
 	private final static int MENU_DELETE = 3;
 	
+	
+	// TESTING SHIT
+	private StringBuilder texto;
+	
 	@Override
 	/**
      * onCreate:
@@ -193,11 +197,29 @@ public class NotepadViewNote extends Activity {
 		mDbAdapter.deleteNote(mRowId);
 	}
 	
+	// noteShowMapButton listener
 	OnClickListener buttonClick = new OnClickListener() {
 		public void onClick(View v) {
-			// TODO Auto-generated method stub
-			
+			fillText();
 		}
 	};
 	
+	// Durka Durka
+	private void fillText() {
+		if (texto == null) {
+			texto = new StringBuilder();
+			texto.append("-- Prueba --\n" +
+						  "Esto no se guardara en la nota\n\n");
+		}
+		
+		int random, palabras = (int)(Math.random() * 100);
+		String[] dic = {"hur", "dur", "durka", "durka", "herp", "derp", "nigger", "fagget", "durka", "jose miguel salcido aguilar"};
+		
+		for (int i = 0; i < palabras; i++) {
+			random = (int)(Math.random() * (dic.length-1));
+			texto.append(dic[random] + " ");
+		}
+		
+		noteBodyText.setText(texto);
+	}
 }

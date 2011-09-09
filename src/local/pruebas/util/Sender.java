@@ -39,6 +39,7 @@ public class Sender {
 	/**
 	 * shareNote():
 	 * This method will share a note on different applications that the device has installed.
+	 * It will use only the title and body, not the place or other things.
 	 */
 	public void shareNote() {
 		Intent intent = new Intent(Intent.ACTION_SEND);
