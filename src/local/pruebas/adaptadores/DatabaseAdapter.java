@@ -40,6 +40,7 @@ public class DatabaseAdapter {
 	private DatabaseHelper mHelper;
 	private SQLiteDatabase mDb;
 	
+	// Query to create the notes database
 	private static final String DATABASE_NOTES_CREATE = "" +
 			"CREATE TABLE notes(" +
 			"_id INTEGER PRIMARY KEY AUTOINCREMENT," +
@@ -48,7 +49,7 @@ public class DatabaseAdapter {
 			"place INTEGER NOT NULL);";//," +
 			//"FOREIGN KEY(place) REFERENCES places(_id));";
 	
-	// TODO Implement places... 
+	// Query to create the places database
 	private static final String DATABASE_PLACES_CREATE = "" +
 			"CREATE TABLE places(" +
 			"_id INTEGER PRIMARY KEY AUTOINCREMENT," +
@@ -77,8 +78,38 @@ public class DatabaseAdapter {
 		}
 		
 		@Override
+		/**
+		 * onCreate:
+		 * this method is called when there is no database created.
+		 */
 		public void onCreate(SQLiteDatabase db) {
 			db.execSQL(create);
+			
+			// Insert the default place: none
+			// TODO something
+			if (table.equals(DATABASE_PLACES_TABLE)) {
+				ContentValues values = createFirstValue();
+				if (values == null)
+					return;
+				else
+					db.insert(table, null, values);
+			}
+		}
+		
+		/**
+		 * createFirstValue:
+		 * @param table
+		 * @return
+		 */
+		private ContentValues createFirstValue() {
+			ContentValues values = new ContentValues();
+			String[] defaultValue = {"None", "", ""};
+			
+			values.put(KEY_PLACES_NAME, defaultValue[0]);
+			values.put(KEY_PLACES_LATITUDE, defaultValue[1]);
+			values.put(KEY_PLACES_LONGITUDE, defaultValue[2]);
+			
+			return values;
 		}
 		
 		@Override

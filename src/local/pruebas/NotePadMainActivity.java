@@ -15,7 +15,6 @@ import local.pruebas.adaptadores.NotesGUIAdapter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -39,13 +38,14 @@ public class NotePadMainActivity extends Activity {
 	private Button mainButtonShowMap;
 	
 	// CONSTANTS
-	private final int MAIN_BUTTON_ADD = 10;
-	private final int MAIN_BUTTON_VIEW = 11;
+	private final int MAIN_BUTTON_ADD = 1;
+	private final int MAIN_BUTTON_VIEW = 2;
 	
     @Override
     /**
      * onCreate:
-     * main method for the activity, you know the rest if not check developer.android.com
+     * main method for the activity,
+     * you know the rest if not check developer.android.com
      * 
      * Basically: init DbAdapter, check if this is the first run and init application.
      */
@@ -78,14 +78,13 @@ public class NotePadMainActivity extends Activity {
 	protected void onDestroy() {
 		mDbAdapter.close();
 		Log.v("[NotePadGPS DevTeam]","CAPTAIN, ALERT THE CREW, CLOSE ALL THE CONNECTIONS AND TRY TO GET OUT ALIVEEEE!");
-		Log.v("[NotePadGPS DevTeam]", "FOR THOSE WHO READ THE LOG WE SALUTE YOU.");
 		super.onDestroy();
 	}
 
     /**
      * isFirstRun:
      * Lets see if this is the first time that our friend uses this app dont you think?
-     * @return true if yes herpderp
+     * @return true if yes
      */
     private boolean isFirstRun() {
     	boolean firstRun;
@@ -144,17 +143,6 @@ public class NotePadMainActivity extends Activity {
     	mainGrid.setOnItemClickListener(new GridClick());
     	mainButtonAddNote.setOnClickListener(new ClickEvents(MAIN_BUTTON_ADD));
     	mainButtonShowMap.setOnClickListener(new ClickEvents(MAIN_BUTTON_VIEW));
-    	
-    	// No of Columns in PORTRAIT
-    	int numColumns; 
-    	// Check the orientation of the device
-		int orientation = mContexto.getResources().getConfiguration().orientation;
-    	if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
-    		numColumns = 2;
-    	} else {
-    		numColumns = 3; 
-    	}
-    	mainGrid.setNumColumns(numColumns);
     }
     
     /**

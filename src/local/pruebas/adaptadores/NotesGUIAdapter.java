@@ -9,6 +9,7 @@ package local.pruebas.adaptadores;
 
 import local.pruebas.NotepadUtils;
 import local.pruebas.R;
+import local.pruebas.util.ScalePixel;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.database.Cursor;
@@ -107,15 +108,24 @@ public class NotesGUIAdapter extends BaseAdapter {
 			
 			TextView gridText = (TextView) layout.findViewById(R.id.gridTextView);
 			
+			// Text Padding from the image
+			final float LANDSCAPE_DPI = 8.0f;
+			ScalePixel scaler = new ScalePixel(mContexto);
+			int paddingLeft;
+			
 			// Check the orientation of the device and make proper changes
 			int orientation = mContexto.getResources().getConfiguration().orientation;
 	    	if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
 	    		LinearLayout mainGridLinearLayout = (LinearLayout) layout.findViewById(R.id.mainGridLinearLayout);
 	    		mainGridLinearLayout.setOrientation(LinearLayout.HORIZONTAL);
 	    		gridText = setMaxLength(gridText);
+	    		
+	    		// Get the pixels padding in LANDSCAPE mode (not sure if working correctly)
+	        	paddingLeft = scaler.getPixels(LANDSCAPE_DPI);
+	        	gridText.setPadding(paddingLeft, 0, 0, 0);
 	    	} else {
-	    		// DO NOTHING.
 	    	}
+	    	
 	    	// Set the text as the title
 			String title = getTitle(position);
 			gridText.setText(title);
